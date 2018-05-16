@@ -1,24 +1,26 @@
 
 export const getList = () => {
-
-    return (
-        fetch("https://uetcc-todo-app.herokuapp.com/draft")
-        .then(response => {
-            return response.json()
-        })
-    )
+    const url = 'https://todo11235.herokuapp.com/todo';
+    const request = new Request(url, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    });
+    return fetch(request)
+        .then(response => response.json())
 }
 
 export const createTodo = (text) => {
-    const url = 'https://uetcc-todo-app.herokuapp.com/draft';
+    const url = 'https://todo11235.herokuapp.com/todo';
     const request = new Request(url, {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            title: text,
-            completed: false
+            todo: text,
+           
         })
     });
     console.log('create todo')
@@ -27,7 +29,7 @@ export const createTodo = (text) => {
 
 }
 export const deleteTodo = (id) => {
-    const url = 'https://uetcc-todo-app.herokuapp.com/draft/' + id;
+    const url = 'https://todo11235.herokuapp.com/todo/' + id;
     const request = new Request(url, {
         headers: {
             'Content-Type': 'application/json'

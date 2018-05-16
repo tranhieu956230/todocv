@@ -4,21 +4,22 @@ import { getList, createTodo, deleteTodo, complete } from "./APIService"
 import "./style.css";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { array: [] }
+  state = {
+    array: [],
   }
   triggerUL() {
     getList().then(obj => {
-      this.setState({ array: obj.data });
+      this.setState({ array: obj });
     })
   }
-  componentWillMount() {
+  componentDidMount() {
     getList().then(obj => {
-      this.setState({ array: obj.data })
+      console.log(obj)
+      this.setState({ array: obj })
     })
   }
   render() {
+    console.log("app");
     return (
       <div id="main">
         <Head triggerUL={this.triggerUL.bind(this)} />
@@ -78,17 +79,20 @@ class UL extends React.Component {
     this.state = { array: this.props.arr };
   }
   handleComplete(id) {
-    complete(id).then(() => this.props.triggerUL())
+    complete(id).then((res) => {
+      console.log("complete",res)
+      this.props.triggerUL()
+    })
   }
   removeTodo(id) {
-    deleteTodo(id).then(() => this.props.triggerUL())
+    deleteTodo(id).then((res) => this.props.triggerUL())
   }
   render() {
-
+   console.log("ul");
     var list = this.props.arr;
     list = list.map((obj, index) =>
       <li key={index} onClick={this.handleComplete.bind(this, obj._id)} className={obj.completed === true ? "completed" : ""}>
-        {obj.title}
+        {obj.todo}
         <Span close={this.removeTodo.bind(this)} id={obj._id} />
       </li>
     )
